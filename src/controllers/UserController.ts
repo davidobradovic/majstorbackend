@@ -67,7 +67,7 @@ export const login = async (req: Request, res: Response) => {
     }
 
     const token = jwt.sign({ userId: user.id, role: user.role }, JWT_SECRET, {
-      expiresIn: "7d",
+      expiresIn: "30d",
     });
 
     res.json({ token, user });
@@ -88,7 +88,15 @@ export const createUser = async (req: Request, res: Response) => {
 
 export const getUsers = async (req: Request, res: Response) => {
   try {
-    const users = await User.findAll();
+    const users = await User.findAll({
+      include: [
+              {
+                model: Image,
+                as: 'images', // This should match your association alias
+                attributes: ['id', 'type' ,'filename'], // Adjust fields as needed
+              },
+            ],
+    });
     res.status(200).json(users);
   } catch (error) {
     res.status(500).json({ message: "Error retrieving users", error });
@@ -97,7 +105,15 @@ export const getUsers = async (req: Request, res: Response) => {
 
 export const getUserById = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const category = await User.findByPk(id);
+  const category = await User.findByPk(id, {
+    include: [
+      {
+        model: Image,
+        as: 'images', // This should match your association alias
+        attributes: ['id', 'type' ,'filename'], // Adjust fields as needed
+      },
+    ],
+  });
   if (!category) return res.status(404).json({ message: 'Category not found' });
   res.json(category);
 };
