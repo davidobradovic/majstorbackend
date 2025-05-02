@@ -14,6 +14,7 @@ import serviceRoutes from './routes/ServiceRoutes';
 import subcategoryRoutes from './routes/SubcategoryRoutes';
 import userRoutes from './routes/UserRoutes';
 import workerProfileRoutes from './routes/WorkerProfileService';
+import advertisementRouter from './routes/AdverstisementRoutes'
 import { sequelize } from './database';
 import cors from 'cors'
 
@@ -36,6 +37,7 @@ app.use('/api/service', serviceRoutes);
 app.use('/api/subcategory', subcategoryRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/worker-profile', workerProfileRoutes);
+app.use('/api/advertisement', advertisementRouter)
 
 app.listen(5000, async () => {
   try {

@@ -105,7 +105,7 @@ export const getUsers = async (req: Request, res: Response) => {
 
 export const getUserById = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const category = await User.findByPk(id, {
+  const user = await User.findByPk(id, {
     include: [
       {
         model: Image,
@@ -114,8 +114,8 @@ export const getUserById = async (req: Request, res: Response) => {
       },
     ],
   });
-  if (!category) return res.status(404).json({ message: 'Category not found' });
-  res.json(category);
+  if (!user) return res.status(404).json({ message: 'User not found' });
+  res.json(user);
 };
 
 export const updateUser = async (req: Request, res: Response) => {
